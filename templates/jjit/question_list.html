@@ -14,9 +14,9 @@
 </form>
 </div>
 
-    <table class="table">
+    <table class="tabdle">
       <thead>
-        <tr class=" text-center table-dark">
+        <tr class=" text-center table-white">
           <th>번호</th>
           <th style="width 50%">제목</th>
           <th>작성일시</th>
@@ -25,30 +25,36 @@
         </tr>
       </thead>
       <tbody>
-        {% if question_list %}
-          {% for question in question_list %}
-            <tr class="text-center">
-              <td>
-                <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
-                {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
-              </td>
-              <td>
-                <a href="{% url 'jjit:detail' question.id %}">{{ question.subject }}
-                  {% if question.answer_set.count > 0 %}
-                    <span class="text-danger small mx-2">{{ question.answer_set.count }}</span>
-                  {% endif %}
-                </a>
-              </td>
-              <td>{{ question.create_date }}</td>
-               <td>{{ question.writer.profile.nickname }}</td> <!--글쓴이 추가-->
-            </tr>
-          {% endfor %}
+    {% if question_list %}
+    {% for question in question_list %}
+    <tr class="text-center custom-table-row">
+      <td class="custom-table-cell">
+        <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+        {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
+      </td>
+      <td class="custom-table-cell">
+        <a href="{% url 'jjit:detail' question.id %}">{{ question.subject }}
+          {% if question.answer_set.count > 0 %}
+          <span class="text-danger small mx-2">{{ question.answer_set.count }}</span>
+          {% endif %}
+        </a>
+      </td>
+      <td class="custom-table-cell">{{ question.create_date }}</td>
+      <td class="custom-table-cell">
+        {% if question.writer.profile %}
+          {{ question.writer.profile.nickname }}
         {% else %}
-          <tr>
-            <td colspan="4">질문이 없습니다.</td>
-          </tr>
+          글쓴이 없음
         {% endif %}
-      </tbody>
+      </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td colspan="4">질문이 없습니다.</td>
+    </tr>
+    {% endif %}
+  </tbody>
     </table>
 
     <!-- 페이징처리 시작 -->
@@ -95,6 +101,17 @@
 
     <a href="{% url 'jjit:question_create' %}" class="btn btn-primary">글 작성하기</a>
   </div>
+
+
+<style>
+  .custom-tabdle-row {
+    background-color: white;
+  }
+
+  .custom-tabdle-cell {
+    padding: 10px;
+  }
+</style>
 
 {% endblock %}
 
