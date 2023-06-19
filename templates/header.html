@@ -1,11 +1,30 @@
+<style>
+
+    a {
+
+	        text-decoration: none;
+
+    }
+
+</style>
+
+
+
+
+
 <div style=""class="JJIT_header">
     <nav>
         <div class="header_topic_navbar">
-            <a href="{% url 'projectapp:list' %}" class="header_topic">
-                <span>Study</span>
+            
+		<a href="{% url 'articleapp:list' category_name='프로젝트 모집' %}" class="header_topic">
+
+
+                <span>Project</span>
             </a>
-            <a href="{% url 'articleapp:list' %}" class="header_topic">
-                <span>Projects</span>
+            <a href="{% url 'projectapp:list' %}" class="header_topic">
+
+
+                <span>Study</span>
             </a>
             <a href="{% url 'jjit:index' %}" class="header_topic">
                 <span>Community</span>

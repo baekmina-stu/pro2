@@ -121,8 +121,8 @@ class ArticleListView(ListView):
         # 정렬 옵션 가져오기
         sort_by = self.request.GET.get('sort_by', '-created_at')
 
-        category_name = self.kwargs.get('category_name', '스터디')
-        if category_name == '스터디':
+        category_name = self.kwargs.get('category_name', '프로젝트 모집')
+        if category_name == '프로젝트 모집':
             # 기본 카테고리인 경우 모든 글을 가져옴
             if kw:
                 article_list = article_list.filter(
