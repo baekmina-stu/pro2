@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
 
@@ -9,49 +10,38 @@
 
     <script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script>
 
-
-    <style>
-        body {
-            background-color: rgb(17 24 39);
-        }
-        .card-body {
-            background-color: rgb(31, 41, 55);
-        }
-        .card-title,
-        label,
-        textarea {
-            color: white;
-        }
-    </style>
-
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title text-center mb-6" style="font-weight: bold;">게시글 수정</h4>
-                        <form action="{% url 'articleapp:create' %}" method="post" enctype="multipart/form-data">
+                        <h4 class="card-title text-center mb-6" style="font-weight: bold;">게시글 수정하기</h4>
+                        <form action="{% url 'articleapp:update' pk=target_article.pk %}" method="POST">
                             {% csrf_token %}
-
-                            <div class="form-group mt-4">
+                            <div class="form-group">
                                 <label for="{{ form.title.id_for_label }}">제목</label>
-                                <input type="text" class="form-control" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}" required>
+                                <input type="text" class="form-control" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}" value="{{ form.title.value }}" required>
                             </div>
-
-                            <div class="form-group mt-4">
-                                <label for="{{ form.project.id_for_label }}">프로젝트</label>
-                                <select class="form-control" id="{{ form.project.id_for_label }}" name="{{ form.project.html_name }}" required>
-                                    {% for project in form.project.field.queryset %}
-                                        <option value="{{ project.pk }}">{{ project.title }}</option>
+                            <div class="form-group">
+                                <label for="{{ form.category.id_for_label }}">카테고리</label>
+                                <select class="form-control" id="{{ form.category.id_for_label }}" name="{{ form.category.html_name }}" required>
+                                    {% for category in form.category.field.queryset %}
+                                        <option value="{{ category.pk }}" {% if category.pk == form.category.value %}selected{% endif %}>{{ category.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-
-                            <div class="form-group mt-4">
-                                <label for="{{ form.content.id_for_label }}">내용</label>
-                                <textarea class="ckeditor form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" required rows="6"></textarea>
+                            <div class="form-group">
+                                <label for="{{ form.project.id_for_label }}">분야</label>
+                                <select class="form-control" id="{{ form.project.id_for_label }}" name="{{ form.project.html_name }}" required>
+                                    {% for project in form.project.field.queryset %}
+                                        <option value="{{ project.pk }}" {% if project.pk == form.project.value %}selected{% endif %}>{{ project.title }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-
+                            <div class="form-group">
+                                <label for="{{ form.content.id_for_label }}">내용</label>
+                                <textarea class="ckeditor form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" required rows="6">{{ form.content.value }}</textarea>
+                            </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-dark rounded-pill col-md-6 mt-3">작성 완료</button>
                             </div>
@@ -63,7 +53,7 @@
     </div>
 
 
-    <script>
+ <script>
     CKEDITOR.replace("{{ form.content.id_for_label }}", {
         toolbar: [
              { name: 'document', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'] },
@@ -80,5 +70,4 @@
     });
 
     </script>
-
 {% endblock %}
